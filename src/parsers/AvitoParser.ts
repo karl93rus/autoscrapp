@@ -1,19 +1,18 @@
 import cheerio from 'cheerio';
 import { ItemInfo } from '../types/types';
 import { ContentProvider } from '../ContentProvider';
-import { CarData } from '../types/types'
+import { CarData } from '../types/types';
+import { Parser } from './AbstractParser';
 
-export class Parser {
+export class AvitoParser implements Parser {
   private _list: ItemInfo[];
 
   constructor(list: ItemInfo[]) {
     this._list = list;
   }
 
-  // getData(html: string, item: ItemInfo) {
   getData(html: string) {
     const $ = cheerio.load(html!);
-    // let url = item.href;
     let name = $('.title-info-title-text').text();
     let price = $('.js-item-price').attr('content') as string;
     let img = `https:${$('.gallery-img-frame img').attr('src')}`;
@@ -26,8 +25,6 @@ export class Parser {
         params.push({'owners': $(p).text().trim()});
       }
     });
-    // console.log(`name: ${name}, price: ${price}, img: ${img}, url: ${url} params:`, params);
-    // console.log(`name: ${name}, price: ${price}, img: ${img}, params:`, params);
     return {
       name,
       price,
@@ -36,7 +33,7 @@ export class Parser {
     }
   }
 
-  async parseAvito() {
+  async parse() {
     this._list = this._list.slice(0, 6);
     console.log(`Starting AVITO.RU content parsing... ${this._list.length} items to parse.`);
     

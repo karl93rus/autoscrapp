@@ -1,5 +1,5 @@
 import { ContentProvider } from './src/ContentProvider';
-import { Parser } from './src/parsers/AvitoParser';
+import { AvitoParser } from './src/parsers/AvitoParser';
 
 const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300000&pmin=800000&radius=200&s=104';
 
@@ -9,8 +9,6 @@ const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300
   
   const avitoList = await avitoContent.getAvitoList();
   
-  const avitoParser = new Parser(avitoList!);
-  avitoParser.parseAvito();
+  const avitoParser = new AvitoParser(avitoList!);
+  avitoParser.parse();
 })();
-
-
