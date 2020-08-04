@@ -13,45 +13,47 @@ const LAUNCH_PUPPETEER_OPTS = {
   ]
 };
 
-// const PAGE_PUPPETEER_OPTS = {
-//   networkIdle2Timeout: 5000,
-//   waitUntil: 'networkidle2',
-//   timeout: 3000000
-// };
-
 export class ContentProvider {
-  private _url: string;
-  private _browser: puppeteer.Browser | null = null;
+  private _browser: puppeteer.Browser | null;
 
-  constructor(url: string) {
-    this._url = url;
+  constructor() {
+    this._browser = null;
   }
 
-  private async runBrowser() {
+  async runBrowser() {
+    console.log('Initializing new browser...');
     this._browser = await puppeteer.launch(LAUNCH_PUPPETEER_OPTS);
+    console.log('New browser initialized...');
   }
 
-  async getHTML() {
+  async closeBrowser() {
+    console.log('Closing browser...');
+    await this._browser?.close();
+    console.log('Browser closed...');
+  }
+
+  async getHTML(url: string) {
     try {
       if(!this._browser) {
-        await this.runBrowser();
-        const page = await this._browser!.newPage();
-        await page.goto(this._url);
-        const body = await page.content();
-        this._browser!.close();
-        return body;
+        console.log('No browser running...');
+      } else {
+        console.log('Browser running in getHTML...');
       }
-      // const browser = await puppeteer.launch(LAUNCH_PUPPETEER_OPTS);
+      const page = await this._browser!.newPage();
+      await page.goto(url);
+      const body = await page.content();
+      // this._browser!.close();
+      return body;
     } catch (error) {
       throw error;
     }
   }
 
-  async getAvitoList() {
+  async getAvitoList(avitoUrl: string) {
     console.log('Getting avito list...');
     try {
       let res: ItemInfo[] = [];
-      let body = await this.getHTML();
+      let body = await this.getHTML(avitoUrl);
       const $ = cheerio.load(body!);
       const href = $('.item_table-wrapper');
       href.each((_, el) => {
@@ -64,7 +66,7 @@ export class ContentProvider {
           price: price
         });
       });
-      // this._browser?.close();
+      await this._browser?.close();
       return res;
     } catch (error) {
       console.log(error);

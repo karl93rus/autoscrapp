@@ -24,45 +24,52 @@ const LAUNCH_PUPPETEER_OPTS = {
         '--window-size=1920x1080'
     ]
 };
-// const PAGE_PUPPETEER_OPTS = {
-//   networkIdle2Timeout: 5000,
-//   waitUntil: 'networkidle2',
-//   timeout: 3000000
-// };
 class ContentProvider {
-    constructor(url) {
+    constructor() {
         this._browser = null;
-        this._url = url;
     }
     runBrowser() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('Initializing new browser...');
             this._browser = yield puppeteer_1.default.launch(LAUNCH_PUPPETEER_OPTS);
+            console.log('New browser initialized...');
         });
     }
-    getHTML() {
+    closeBrowser() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('Closing browser...');
+            yield ((_a = this._browser) === null || _a === void 0 ? void 0 : _a.close());
+            console.log('Browser closed...');
+        });
+    }
+    getHTML(url) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this._browser) {
-                    yield this.runBrowser();
-                    const page = yield this._browser.newPage();
-                    yield page.goto(this._url);
-                    const body = yield page.content();
-                    this._browser.close();
-                    return body;
+                    console.log('No browser running...');
                 }
-                // const browser = await puppeteer.launch(LAUNCH_PUPPETEER_OPTS);
+                else {
+                    console.log('Browser running in getHTML...');
+                }
+                const page = yield this._browser.newPage();
+                yield page.goto(url);
+                const body = yield page.content();
+                // this._browser!.close();
+                return body;
             }
             catch (error) {
                 throw error;
             }
         });
     }
-    getAvitoList() {
+    getAvitoList(avitoUrl) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             console.log('Getting avito list...');
             try {
                 let res = [];
-                let body = yield this.getHTML();
+                let body = yield this.getHTML(avitoUrl);
                 const $ = cheerio_1.default.load(body);
                 const href = $('.item_table-wrapper');
                 href.each((_, el) => {
@@ -75,7 +82,7 @@ class ContentProvider {
                         price: price
                     });
                 });
-                // this._browser?.close();
+                yield ((_a = this._browser) === null || _a === void 0 ? void 0 : _a.close());
                 return res;
             }
             catch (error) {

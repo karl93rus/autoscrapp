@@ -36,10 +36,11 @@ export class AvitoParser implements Parser {
   async parse() {
     this._list = this._list.slice(0, 6);
     console.log(`Starting AVITO.RU content parsing... ${this._list.length} items to parse.`);
+    const contentProvider = new ContentProvider();
+    await contentProvider.runBrowser();
     
     Promise.all(this._list.map(item => {
-      const contentProvider = new ContentProvider(item.href);
-      return contentProvider.getHTML();
+      return contentProvider.getHTML(item.href);
     }))
     .then((res) => {
       res.forEach((r, i) => {
@@ -47,6 +48,7 @@ export class AvitoParser implements Parser {
         d = {...d, url: this._list[i].href}
         console.log(d);
       });
+      contentProvider.closeBrowser();
     });
   }
 }

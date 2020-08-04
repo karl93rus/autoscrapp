@@ -14,9 +14,11 @@ const AvitoParser_1 = require("./src/parsers/AvitoParser");
 const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300000&pmin=800000&radius=200&s=104';
 (function () {
     return __awaiter(this, void 0, void 0, function* () {
-        const avitoContent = new ContentProvider_1.ContentProvider(avitoUrl);
-        const avitoList = yield avitoContent.getAvitoList();
-        const avitoParser = new AvitoParser_1.Parser(avitoList);
-        avitoParser.parseAvito();
+        const avitoContent = new ContentProvider_1.ContentProvider();
+        yield avitoContent.runBrowser();
+        const avitoList = yield avitoContent.getAvitoList(avitoUrl);
+        yield avitoContent.closeBrowser();
+        const avitoParser = new AvitoParser_1.AvitoParser(avitoList);
+        avitoParser.parse();
     });
 })();
