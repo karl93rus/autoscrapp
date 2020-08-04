@@ -51,26 +51,5 @@ export class Parser {
         console.log(d);
       });
     });
-
-    // for(let item of this._list) {
-    //   const contentProvider = new ContentProvider(item.href);
-    //   const itemHtml = await contentProvider.getHTML();
-    //   this.getData(itemHtml!, item);
-    //   // const $ = cheerio.load(itemHtml!);
-    //   // let url = item.href;
-    //   // let name = $('.title-info-title-text').text();
-    //   // let price = $('.js-item-price').attr('content');
-    //   // let img = `https:${$('.gallery-img-frame img').attr('src')}`;
-    //   // let params: {[k: string]: string}[] = [];
-    //   // $('.item-params-list-item').each((i, p) => {
-    //   //   let paramK = $(p).text().trim().split(' ')[0];
-    //   //   if(/пробег/gi.test(paramK)) {
-    //   //     params.push({'miliage': $(p).text().trim()});
-    //   //   } else if(/Владельцев/gi.test(paramK)) {
-    //   //     params.push({'owners': $(p).text().trim()});
-    //   //   }
-    //   // });
-    //   // console.log(`name: ${name}, price: ${price}, url: ${url}, img: ${img}, params:`, params);
-    // }
   }
 }
