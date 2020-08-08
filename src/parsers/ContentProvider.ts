@@ -9,7 +9,8 @@ const LAUNCH_PUPPETEER_OPTS = {
     '--disable-dev-shm-usage',
     '--disable-accelerated-2d-canvas',
     '--disable-gpu',
-    '--window-size=1920x1080'
+    '--window-size=1920x1080',
+    // '--proxy-server=http://157.245.95.2:8080'
   ]
 };
 
@@ -40,9 +41,11 @@ export class ContentProvider {
         console.log('Browser running in getHTML...');
       }
       const page = await this._browser!.newPage();
-      await page.goto(url);
+      // await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
+      let res = await page.goto(url);
+      // console.log('RESPONSE headers', res?.headers());
+      console.log('RESPONSE status', res?.status());
       const body = await page.content();
-      // this._browser!.close();
       return body;
     } catch (error) {
       throw error;

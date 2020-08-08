@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ContentProvider_1 = require("./src/ContentProvider");
+const ContentProvider_1 = require("./src/parsers/ContentProvider");
 const AvitoParser_1 = require("./src/parsers/AvitoParser");
 const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300000&pmin=800000&radius=200&s=104';
 (function () {

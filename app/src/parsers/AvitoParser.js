@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio_1 = __importDefault(require("cheerio"));
-const ContentProvider_1 = require("../ContentProvider");
+const fs_1 = __importDefault(require("fs"));
+const ContentProvider_1 = require("./ContentProvider");
 class AvitoParser {
     constructor(list) {
         this._list = list;
+        this._itemsToSave = [];
     }
     getData(html) {
         const $ = cheerio_1.default.load(html);
@@ -43,19 +45,36 @@ class AvitoParser {
     parse() {
         return __awaiter(this, void 0, void 0, function* () {
             this._list = this._list.slice(0, 6);
-            console.log(`Starting AVITO.RU content parsing... ${this._list.length} items to parse.`);
+            let part = [];
             const contentProvider = new ContentProvider_1.ContentProvider();
             yield contentProvider.runBrowser();
-            Promise.all(this._list.map(item => {
+            while (this._list.length > 0) {
+                part = this._list.splice(0, 2);
+                console.log(`Starting AVITO.RU content parsing... ${part.length} items to parse.`);
+                console.log(`Items to parse left: ${this._list.length}`);
+                try {
+                    yield this.parsePart(part, contentProvider);
+                }
+                catch (error) {
+                    console.log(error);
+                    return;
+                }
+            }
+            fs_1.default.writeFileSync('./data/results.json', this._itemsToSave.join(',\n'));
+            yield contentProvider.closeBrowser();
+            return;
+        });
+    }
+    parsePart(parseArray, contentProvider) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let parsedPart = yield Promise.all(parseArray.map(item => {
                 return contentProvider.getHTML(item.href);
-            }))
-                .then((res) => {
-                res.forEach((r, i) => {
-                    let d = this.getData(r);
-                    d = Object.assign(Object.assign({}, d), { url: this._list[i].href });
-                    console.log(d);
-                });
-                contentProvider.closeBrowser();
+            }));
+            parsedPart.forEach((r, i) => {
+                let d = this.getData(r);
+                d = Object.assign(Object.assign({}, d), { url: parseArray[i].href });
+                console.log(d);
+                this._itemsToSave.push(JSON.stringify(d, null, 2));
             });
         });
     }

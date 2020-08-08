@@ -1,4 +1,5 @@
 import cheerio from 'cheerio';
+import fs from 'fs';
 import { ItemInfo } from '../types/types';
 import { ContentProvider } from './ContentProvider';
 import { CarData } from '../types/types';
@@ -6,9 +7,11 @@ import { Parser } from './AbstractParser';
 
 export class AvitoParser implements Parser {
   private _list: ItemInfo[];
+  private _itemsToSave: string[];
 
   constructor(list: ItemInfo[]) {
     this._list = list;
+    this._itemsToSave = [];
   }
 
   getData(html: string) {
@@ -35,20 +38,35 @@ export class AvitoParser implements Parser {
 
   async parse() {
     this._list = this._list.slice(0, 6);
-    console.log(`Starting AVITO.RU content parsing... ${this._list.length} items to parse.`);
+    let part: ItemInfo[] = [];
     const contentProvider = new ContentProvider();
     await contentProvider.runBrowser();
-    
-    Promise.all(this._list.map(item => {
+
+    while(this._list.length > 0) {
+      part = this._list.splice(0, 2);
+      console.log(`Starting AVITO.RU content parsing... ${part.length} items to parse.`);
+      console.log(`Items to parse left: ${this._list.length}`);
+      try {
+        await this.parsePart(part, contentProvider);
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    }
+    fs.writeFileSync('./data/results.json', this._itemsToSave.join(',\n'));
+    await contentProvider.closeBrowser();
+    return;
+  }
+
+  async parsePart(parseArray: ItemInfo[], contentProvider: ContentProvider) {
+    let parsedPart = await Promise.all(parseArray.map(item => {
       return contentProvider.getHTML(item.href);
-    }))
-    .then((res) => {
-      res.forEach((r, i) => {
-        let d: CarData = this.getData(r!);
-        d = {...d, url: this._list[i].href}
-        console.log(d);
-      });
-      contentProvider.closeBrowser();
+    }));
+    parsedPart.forEach((r, i) => {
+      let d: CarData = this.getData(r);
+      d = {...d, url: parseArray[i].href}
+      console.log(d);
+      this._itemsToSave.push(JSON.stringify(d, null, 2))
     });
   }
 }

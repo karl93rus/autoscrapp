@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app/index.js"
+    "start": "rm -rf data/* && nodemon app/index.js"
   },
   "author": "",
   "license": "ISC",
