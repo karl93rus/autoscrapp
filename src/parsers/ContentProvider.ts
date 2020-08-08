@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import cheerio from 'cheerio';
-import { ItemInfo } from './types/types';
+import { ItemInfo } from '../types/types';
 
 const LAUNCH_PUPPETEER_OPTS = {
   args: [

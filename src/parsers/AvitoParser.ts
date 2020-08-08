@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import { ItemInfo } from '../types/types';
-import { ContentProvider } from '../ContentProvider';
+import { ContentProvider } from './ContentProvider';
 import { CarData } from '../types/types';
 import { Parser } from './AbstractParser';
 

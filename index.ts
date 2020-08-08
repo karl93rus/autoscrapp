@@ -1,4 +1,4 @@
-import { ContentProvider } from './src/ContentProvider';
+import { ContentProvider } from './src/parsers/ContentProvider';
 import { AvitoParser } from './src/parsers/AvitoParser';
 
 const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300000&pmin=800000&radius=200&s=104';
