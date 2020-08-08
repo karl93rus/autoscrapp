@@ -44,7 +44,7 @@ class AvitoParser {
     }
     parse() {
         return __awaiter(this, void 0, void 0, function* () {
-            this._list = this._list.slice(0, 6);
+            this._list = this._list.slice(0, 2);
             let part = [];
             const contentProvider = new ContentProvider_1.ContentProvider();
             yield contentProvider.runBrowser();
@@ -60,9 +60,12 @@ class AvitoParser {
                     return;
                 }
             }
-            fs_1.default.writeFileSync('./data/results.json', this._itemsToSave.join(',\n'));
+            fs_1.default.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
+                if (err) {
+                    console.log(err.message);
+                }
+            });
             yield contentProvider.closeBrowser();
-            return;
         });
     }
     parsePart(parseArray, contentProvider) {

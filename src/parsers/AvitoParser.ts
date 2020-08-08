@@ -37,7 +37,7 @@ export class AvitoParser implements Parser {
   }
 
   async parse() {
-    this._list = this._list.slice(0, 6);
+    this._list = this._list.slice(0, 2);
     let part: ItemInfo[] = [];
     const contentProvider = new ContentProvider();
     await contentProvider.runBrowser();
@@ -53,9 +53,12 @@ export class AvitoParser implements Parser {
         return;
       }
     }
-    fs.writeFileSync('./data/results.json', this._itemsToSave.join(',\n'));
+    fs.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
+      if(err) {
+        console.log(err.message);
+      }
+    });
     await contentProvider.closeBrowser();
-    return;
   }
 
   async parsePart(parseArray: ItemInfo[], contentProvider: ContentProvider) {

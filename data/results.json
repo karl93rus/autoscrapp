@@ -1,4 +1,4 @@
-{
+[{
   "name": "KIA Stinger, 2018",
   "price": "1000000",
   "img": "https://01.img.avito.st/640x480/6064007601.jpg",
@@ -25,60 +25,4 @@
     }
   ],
   "url": "https://avito.ru/abinsk/avtomobili/kia_sportage_2019_1869472057"
-},
-{
-  "name": "BMW 3 серия, 2015",
-  "price": "1300000",
-  "img": "https://14.img.avito.st/640x480/8998964114.jpg",
-  "params": [
-    {
-      "miliage": "Пробег: 90000 км"
-    },
-    {
-      "owners": "Владельцев по ПТС: 1"
-    }
-  ],
-  "url": "https://avito.ru/belorechensk/avtomobili/bmw_3_seriya_2015_1950654176"
-},
-{
-  "name": "Mitsubishi Outlander, 2013",
-  "price": "947000",
-  "img": "https://71.img.avito.st/640x480/8946264871.jpg",
-  "params": [
-    {
-      "miliage": "Пробег: 148840 км"
-    },
-    {
-      "owners": "Владельцев по ПТС: 2"
-    }
-  ],
-  "url": "https://avito.ru/krasnodar/avtomobili/mitsubishi_outlander_2013_1969062018"
-},
-{
-  "name": "Toyota Camry, 2012",
-  "price": "945000",
-  "img": "https://81.img.avito.st/640x480/9053335781.jpg",
-  "params": [
-    {
-      "miliage": "Пробег: 172000 км"
-    },
-    {
-      "owners": "Владельцев по ПТС: 3"
-    }
-  ],
-  "url": "https://avito.ru/krasnodar/avtomobili/toyota_camry_2012_1962251613"
-},
-{
-  "name": "Volkswagen Tiguan, 2014",
-  "price": "879000",
-  "img": "https://29.img.avito.st/640x480/9053448929.jpg",
-  "params": [
-    {
-      "miliage": "Пробег: 85000 км"
-    },
-    {
-      "owners": "Владельцев по ПТС: 2"
-    }
-  ],
-  "url": "https://avito.ru/krasnodar/avtomobili/volkswagen_tiguan_2014_1954632194"
-}
+}]
