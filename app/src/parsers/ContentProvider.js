@@ -55,9 +55,9 @@ class ContentProvider {
                 const page = yield this._browser.newPage();
                 // await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
                 let res = yield page.goto(url);
-                // console.log('RESPONSE headers', res?.headers());
                 console.log('RESPONSE status', res === null || res === void 0 ? void 0 : res.status());
                 const body = yield page.content();
+                yield page.close();
                 return body;
             }
             catch (error) {

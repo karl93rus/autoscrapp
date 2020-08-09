@@ -43,9 +43,9 @@ export class ContentProvider {
       const page = await this._browser!.newPage();
       // await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
       let res = await page.goto(url);
-      // console.log('RESPONSE headers', res?.headers());
       console.log('RESPONSE status', res?.status());
       const body = await page.content();
+      await page.close();
       return body;
     } catch (error) {
       throw error;

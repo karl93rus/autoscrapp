@@ -8,10 +8,12 @@ import { Parser } from './AbstractParser';
 export class AvitoParser implements Parser {
   private _list: ItemInfo[];
   private _itemsToSave: string[];
+  private _itemsToSend: CarData[];
 
   constructor(list: ItemInfo[]) {
     this._list = list;
     this._itemsToSave = [];
+    this._itemsToSend = [];
   }
 
   getData(html: string) {
@@ -37,13 +39,13 @@ export class AvitoParser implements Parser {
   }
 
   async parse() {
-    this._list = this._list.slice(0, 2);
+    this._list = this._list.slice(0, 6);
     let part: ItemInfo[] = [];
     const contentProvider = new ContentProvider();
     await contentProvider.runBrowser();
 
     while(this._list.length > 0) {
-      part = this._list.splice(0, 2);
+      part = this._list.splice(0, 3);
       console.log(`Starting AVITO.RU content parsing... ${part.length} items to parse.`);
       console.log(`Items to parse left: ${this._list.length}`);
       try {
@@ -53,12 +55,13 @@ export class AvitoParser implements Parser {
         return;
       }
     }
-    fs.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
-      if(err) {
-        console.log(err.message);
-      }
-    });
+    // fs.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
+    //   if(err) {
+    //     console.log(err.message);
+    //   }
+    // });
     await contentProvider.closeBrowser();
+    return this._itemsToSend;
   }
 
   async parsePart(parseArray: ItemInfo[], contentProvider: ContentProvider) {
@@ -69,7 +72,8 @@ export class AvitoParser implements Parser {
       let d: CarData = this.getData(r);
       d = {...d, url: parseArray[i].href}
       console.log(d);
-      this._itemsToSave.push(JSON.stringify(d, null, 2))
+      // this._itemsToSave.push(JSON.stringify(d, null, 2))
+      this._itemsToSend.push(d);
     });
   }
 }

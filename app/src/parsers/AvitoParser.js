@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio_1 = __importDefault(require("cheerio"));
-const fs_1 = __importDefault(require("fs"));
 const ContentProvider_1 = require("./ContentProvider");
 class AvitoParser {
     constructor(list) {
         this._list = list;
         this._itemsToSave = [];
+        this._itemsToSend = [];
     }
     getData(html) {
         const $ = cheerio_1.default.load(html);
@@ -44,12 +44,12 @@ class AvitoParser {
     }
     parse() {
         return __awaiter(this, void 0, void 0, function* () {
-            this._list = this._list.slice(0, 2);
+            this._list = this._list.slice(0, 6);
             let part = [];
             const contentProvider = new ContentProvider_1.ContentProvider();
             yield contentProvider.runBrowser();
             while (this._list.length > 0) {
-                part = this._list.splice(0, 2);
+                part = this._list.splice(0, 3);
                 console.log(`Starting AVITO.RU content parsing... ${part.length} items to parse.`);
                 console.log(`Items to parse left: ${this._list.length}`);
                 try {
@@ -60,12 +60,13 @@ class AvitoParser {
                     return;
                 }
             }
-            fs_1.default.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
-                if (err) {
-                    console.log(err.message);
-                }
-            });
+            // fs.writeFile('./data/results.json', `[${this._itemsToSave.join(',\n')}]`, (err) => {
+            //   if(err) {
+            //     console.log(err.message);
+            //   }
+            // });
             yield contentProvider.closeBrowser();
+            return this._itemsToSend;
         });
     }
     parsePart(parseArray, contentProvider) {
@@ -77,7 +78,8 @@ class AvitoParser {
                 let d = this.getData(r);
                 d = Object.assign(Object.assign({}, d), { url: parseArray[i].href });
                 console.log(d);
-                this._itemsToSave.push(JSON.stringify(d, null, 2));
+                // this._itemsToSave.push(JSON.stringify(d, null, 2))
+                this._itemsToSend.push(d);
             });
         });
     }
