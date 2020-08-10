@@ -5,4 +5,4 @@ const testRouter = Router();
 
 testRouter.get('/avi', testHandler);
 
-export const test = testRouter
+export const test = testRouter;

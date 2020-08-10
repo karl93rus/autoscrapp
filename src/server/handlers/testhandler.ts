@@ -4,10 +4,11 @@ import { AvitoParser } from '../../parsers/AvitoParser';
 
 
 export const testHandler = async (req: Request, res: Response) => {
-  const pMin = req.query.pmin;
-  const pMax = req.query.pmax;
+  // const pmin = req.query.pmin;
+  // const pmax = req.query.pmax;
+  const { pmin, pmax } = req.query;
 
-  let avitoUrl = `https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=${pMax}&pmin=${pMin}&radius=200&s=104`;
+  let avitoUrl = `https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=${pmax}&pmin=${pmin}&radius=200&s=104`;
   const avitoContent = new ContentProvider();
   await avitoContent.runBrowser();
   const avitoList = await avitoContent.getAvitoList(avitoUrl);

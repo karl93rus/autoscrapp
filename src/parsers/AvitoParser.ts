@@ -7,12 +7,12 @@ import { Parser } from './AbstractParser';
 
 export class AvitoParser implements Parser {
   private _list: ItemInfo[];
-  private _itemsToSave: string[];
+  // private _itemsToSave: string[];
   private _itemsToSend: CarData[];
 
   constructor(list: ItemInfo[]) {
     this._list = list;
-    this._itemsToSave = [];
+    // this._itemsToSave = [];
     this._itemsToSend = [];
   }
 
