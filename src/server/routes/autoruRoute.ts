@@ -3,6 +3,6 @@ import { autoruHandler } from '../handlers/autoruHandler';
 
 const autoruRoute = Router();
 
-autoruRoute.get('/autoru', autoruHandler);
+autoruRoute.get('/', autoruHandler);
 
 export const autoru = autoruRoute;

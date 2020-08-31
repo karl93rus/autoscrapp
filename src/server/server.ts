@@ -17,8 +17,8 @@ export class Server {
   }
 
   private setRouter() {
-    this._app.use('/', avito);
-    this._app.use('/', autoru);
+    this._app.use('/avito', avito);
+    this._app.use('/autoru', autoru);
     this._app.use('/', all);
   }
 
