@@ -12,20 +12,20 @@ export class AutoruParser extends Parser {
   getData(html: string) {
     const $ = cheerio.load(html!);
     let name = $('.aWaLcwXGq8k1ink9bHIkM__title').text();
-    let price = $('.OfferPriceCaption__price').text();
+    let price = $('.OfferPriceCaption__price').text().split('₽')[0].trim();
     let img = `https:${$('.ImageGalleryDesktop__image').attr('src')}`;
     let params: { [k: string]: string }[] = [];
 
     $('.CardInfo__row').each((i, p) => {
       if($(p).hasClass('CardInfo__row_year')) {
         const inner = $(p).html();
+        console.log('row_year', $(inner).find('a').text().trim());
         name = `${name}, ${$(inner).find('a').text().trim()}`;
       } else if($(p).hasClass('CardInfo__row_ownersCount')) {
-        const inner = $(p).html();
-        params.push({ 'owners': $(inner).children().eq(1).text() });
+        console.log('ownersCount', $(p).hasClass('CardInfo__row_ownersCount'), $(p).html());
+        params.push({ 'owners': $(p).find('span').eq(1).text() });
       } else if($(p).hasClass('CardInfo__row_kmAge')) {
-        const inner = $(p).html();
-        params.push({ 'miliage': $(inner).children().eq(1).text() });
+        params.push({ 'miliage': $(p).find('span').eq(1).text() });
       }
     });
 

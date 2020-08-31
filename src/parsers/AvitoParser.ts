@@ -13,7 +13,7 @@ export class AvitoParser extends Parser {
     const $ = cheerio.load(html!);
     let name = $('.title-info-title-text').text();
     let price = $('.js-item-price').attr('content') as string;
-    let img = `https:${$('.gallery-img-frame img').attr('src')}`;
+    let img = $('.gallery-img-frame img').attr('src') as string;
     let params: { [k: string]: string }[] = [];
     $('.item-params-list-item').each((i, p) => {
       let paramK = $(p).text().trim().split(' ')[0];

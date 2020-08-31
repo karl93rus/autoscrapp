@@ -11,8 +11,8 @@ export abstract class Parser {
   }
 
   abstract getData(html: string): CarData
-  // abstract async parse(): Promise<CarData[] | undefined>
-  async parse(amount: number, threads: number) {
+
+  async parse(amount: number, threads: number, sourse?: string) {
     this._list = this._list.slice(0, amount);
     let part: ItemInfo[] = [];
     const contentProvider = new ContentProvider();
@@ -20,7 +20,7 @@ export abstract class Parser {
 
     while(this._list.length > 0) {
       part = this._list.splice(0, threads);
-      console.log(`Starting AVITO.RU content parsing... ${part.length} items to parse.`);
+      console.log(`Starting ${sourse ? sourse : ''} content parsing... ${part.length} items to parse.`);
       console.log(`Items to parse left: ${this._list.length}`);
       try {
         await this.parsePart(part, contentProvider);

@@ -11,5 +11,5 @@ const avitoUrl = 'https://www.avito.ru/krasnodar/avtomobili/s_probegom?pmax=1300
   await avitoContent.closeBrowser();
   
   const avitoParser = new AvitoParser(avitoList!);
-  avitoParser.parse();
+  avitoParser.parse(1,1);
 })();

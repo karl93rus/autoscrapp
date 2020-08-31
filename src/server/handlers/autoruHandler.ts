@@ -13,7 +13,7 @@ export const autoruHandler = async (req: Request, res: Response) => {
   await autoruContent.closeBrowser();
 
   const autoruParser = new AutoruParser(autoruList!);
-  let parseResult = await autoruParser.parse(3, 3);
+  let parseResult = await autoruParser.parse(1, 1, 'AUTO.RU');
 
   res.status(200);
   res.json(parseResult);

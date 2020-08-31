@@ -13,7 +13,7 @@ export const avitoHandler = async (req: Request, res: Response) => {
   await avitoContent.closeBrowser();
   
   const avitoParser = new AvitoParser(avitoList!);
-  let parseResult = await avitoParser.parse(3, 3);
+  let parseResult = await avitoParser.parse(1, 1);
 
   res.status(200);
   res.json(parseResult);
