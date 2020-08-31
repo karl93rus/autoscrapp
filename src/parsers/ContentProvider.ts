@@ -58,8 +58,8 @@ export class ContentProvider {
       let res: ItemInfo[] = [];
       let body = await this.getHTML(avitoUrl);
       const $ = cheerio.load(body!);
-      const href = $('.item_table-wrapper');
-      href.each((_, el) => {
+      const car = $('.item_table-wrapper');
+      car.each((_, el) => {
         const addr = `https://avito.ru${$(el).find('.snippet-title-row a').attr('href')}`;
         const name = $(el).find('.snippet-title-row span').text().trim();
         const price = $(el).find('.snippet-price-row .snippet-price').text().trim();
@@ -68,6 +68,30 @@ export class ContentProvider {
           name: name,
           price: price
         });
+      });
+      await this._browser?.close();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getAutoruList(autoruUrl: string) {
+    console.log('Getting auto.ru list...');
+    try {
+      let res: ItemInfo[] = [];
+      let body = await this.getHTML(autoruUrl);
+      const $ = cheerio.load(body!);
+      const car = $('.ListingItem-module__main');
+      car.each((_, el) => {
+        const addr = $(el).find('.ListingItemTitle-module__link').attr('href') as string;
+        const name = `${$(el).find('.ListingItemTitle-module__link').text().trim()}, ${$(el).find('.ListingItem-module__year').text().trim()}`;
+        const price = $(el).find('.ListingItemPrice-module__content').text();
+        res.push({
+          href: addr,
+          name: name,
+          price: price
+        })
       });
       await this._browser?.close();
       return res;
