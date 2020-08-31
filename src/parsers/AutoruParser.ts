@@ -19,10 +19,8 @@ export class AutoruParser extends Parser {
     $('.CardInfo__row').each((i, p) => {
       if($(p).hasClass('CardInfo__row_year')) {
         const inner = $(p).html();
-        console.log('row_year', $(inner).find('a').text().trim());
         name = `${name}, ${$(inner).find('a').text().trim()}`;
       } else if($(p).hasClass('CardInfo__row_ownersCount')) {
-        console.log('ownersCount', $(p).hasClass('CardInfo__row_ownersCount'), $(p).html());
         params.push({ 'owners': $(p).find('span').eq(1).text() });
       } else if($(p).hasClass('CardInfo__row_kmAge')) {
         params.push({ 'miliage': $(p).find('span').eq(1).text() });

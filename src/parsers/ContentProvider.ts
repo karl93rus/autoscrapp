@@ -91,7 +91,7 @@ export class ContentProvider {
           href: addr,
           name: name,
           price: price
-        })
+        });
       });
       await this._browser?.close();
       return res;

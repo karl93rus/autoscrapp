@@ -33,14 +33,14 @@ export abstract class Parser {
     return this._itemsToSend;
   }
 
-  async parsePart(parseArray: ItemInfo[], contentProvider: ContentProvider) {
+  private async parsePart(parseArray: ItemInfo[], contentProvider: ContentProvider) {
     let parsedPart = await Promise.all(parseArray.map(item => {
       return contentProvider.getHTML(item.href);
     }));
     parsedPart.forEach((r, i) => {
       let d: CarData = this.getData(r);
       d = {...d, url: parseArray[i].href}
-      console.log(d);
+      // console.log(d);
       this._itemsToSend.push(d);
     });
   }

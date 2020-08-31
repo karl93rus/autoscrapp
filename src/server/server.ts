@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import { avito } from './routes/avitoRoute';
 import { autoru } from './routes/autoruRoute';
+import { all } from './routes/allRoute';
 
 export class Server {
   private _port: number;
@@ -18,6 +19,7 @@ export class Server {
   private setRouter() {
     this._app.use('/', avito);
     this._app.use('/', autoru);
+    this._app.use('/', all);
   }
 
   startServer() {

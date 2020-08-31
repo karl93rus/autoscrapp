@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ContentProvider } from '../../parsers/ContentProvider';
 import { AutoruParser } from '../../parsers/AutoruParser';
+import { CarData } from '../../types/types';
 
 export const autoruHandler = async (req: Request, res: Response) => {
   const { pmin, pmax } = req.query;
@@ -13,8 +14,10 @@ export const autoruHandler = async (req: Request, res: Response) => {
   await autoruContent.closeBrowser();
 
   const autoruParser = new AutoruParser(autoruList!);
-  let parseResult = await autoruParser.parse(1, 1, 'AUTO.RU');
+  let parseResult = await autoruParser.parse(3, 3, 'AUTO.RU');
 
-  res.status(200);
-  res.json(parseResult);
+  // res.status(200);
+  // res.json(parseResult);
+
+  return parseResult as CarData[];
 }
