@@ -11,7 +11,10 @@ export class AutoruParser extends Parser {
 
   getData(html: string) {
     const $ = cheerio.load(html!);
-    let name = $('.aWaLcwXGq8k1ink9bHIkM__title').text();
+    const classPrefixRegExp = /class=\"[A-Za-z0-9]{10,100}__title\"/;
+    const classPrefix = html.match(classPrefixRegExp)![0].split('__')[0].replace('class="', '');
+    console.log('PREFIX', classPrefix);
+    let name = $(`.${classPrefix}__title`).text();
     let price = $('.OfferPriceCaption__price').text().split('₽')[0].trim();
     let img = `https:${$('.ImageGalleryDesktop__image').attr('src')}`;
     let params: { [k: string]: string }[] = [];

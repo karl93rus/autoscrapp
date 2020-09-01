@@ -10,7 +10,7 @@ const LAUNCH_PUPPETEER_OPTS = {
     '--disable-accelerated-2d-canvas',
     '--disable-gpu',
     '--window-size=1920x1080',
-    // '--proxy-server=http://157.245.95.2:8080'
+    // '--proxy-server=176.116.57.51:8080'
   ]
 };
 
