@@ -14,7 +14,7 @@ export const avitoHandler = async (req: Request, res: Response) => {
   await avitoContent.closeBrowser();
   
   const avitoParser = new AvitoParser(avitoList!);
-  let parseResult = await avitoParser.parse(3, 3, 'AVITO');
+  let parseResult = await avitoParser.parse(9, 3, 'AVITO');
 
   // res.status(200);
   // res.json(parseResult);

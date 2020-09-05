@@ -6,7 +6,7 @@ import { CarData } from '../../types/types';
 export const autoruHandler = async (req: Request, res: Response) => {
   const { pmin, pmax } = req.query;
 
-  let autoruUrl = `https://auto.ru/krasnodar/cars/used?price_from=${pmin}&price_to=${pmax}&sort=cr_date-desc`;
+  let autoruUrl = `https://auto.ru/krasnodar/cars/used?sort=cr_date-desc&price_from=${pmin}&price_to=${pmax}`;
 
   const autoruContent = new ContentProvider();
   await autoruContent.runBrowser();
@@ -14,7 +14,7 @@ export const autoruHandler = async (req: Request, res: Response) => {
   await autoruContent.closeBrowser();
 
   const autoruParser = new AutoruParser(autoruList!);
-  let parseResult = await autoruParser.parse(30, 3, 'AUTO.RU');
+  let parseResult = await autoruParser.parse(9, 3, 'AUTO.RU');
 
   // res.status(200);
   // res.json(parseResult);
